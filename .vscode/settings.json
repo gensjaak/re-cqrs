@@ -1,6 +1,6 @@
 {
   "files.exclude": {
-    "**/*.bs.js": false,
-    "**/*.gen.tsx": false
+    "**/*.bs.js": true,
+    "**/*.gen.tsx": true
   }
 }
