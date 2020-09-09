@@ -1,0 +1,42 @@
+{
+  "name": "evsing",
+  "version": "0.0.1",
+  "description": "Event sourcing application in ReasonML/Typescript",
+  "main": "src/EventSourcing.bs.js",
+  "author": "Jean-Jacques Akakpo <akakpo.jeanjacques@gmail.com>",
+  "scripts": {
+    "prepublishOnly": "yarn test && yarn build",
+    "build": "bsb -make-world -clean-world",
+    "build:watch": "bsb -make-world -clean-world -w",
+    "start:dev": "nodemon --watch src src/Main.bs.js",
+    "start": "node src/Main.bs.js",
+    "test": "yarn build && jest --runInBand --config jest.config.re.js --coverage && jest --runInBand --config jest.config.ts.js",
+    "preversion": "yarn test",
+    "postversion": "git push --tags && npm publish && git push && echo \"Successfully released version $npm_package_version!\"",
+    "test:watch": "yarn build && jest --runInBand --config jest.config.re.js --watch & jest --runInBand --config jest.config.ts.js --watch",
+    "test:watch-re": "yarn build && jest --runInBand --config jest.config.re.js --watchAll",
+    "test:watch-reco": "yarn build && jest --runInBand --config jest.config.re.js --watchAll --coverage",
+    "test:watch-ts": "jest --runInBand --config jest.config.ts.js --watchAll"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@glennsl/bs-jest": "^0.4.9",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.1",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^25.1.0",
+    "gentype": "^3.15.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@glennsl/bs-json": "^5.0.2",
+    "bs-mysql": "^0.2.0",
+    "bs-platform": "^7.0.1",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}

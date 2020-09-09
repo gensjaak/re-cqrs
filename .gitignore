@@ -1,0 +1,25 @@
+# OSX
+#
+.DS_Store
+
+node_modules
+coverage
+lib
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+.npmrc
+
+# Bundle artifact
+*.jsbundle
+
+# ReasonML
+lib
+.merlin
+
+# BuckleScript
+**/*.bs.js
+.bsb.lock

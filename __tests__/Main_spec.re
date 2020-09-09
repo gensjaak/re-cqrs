@@ -1,0 +1,3 @@
+// open Jest;
+// describe("EventSourcing", () => {
+// });

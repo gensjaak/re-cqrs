@@ -1,0 +1,43 @@
+{
+  "name": "evsing",
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "bsc-flags": [
+    "-bs-super-errors",
+    "-open Belt",
+    "-warn-error",
+    "@A",
+    "-w",
+    "@A-4-9-20-30-40-41-42-102"
+  ],
+  "bs-dependencies": ["bs-mysql", "@glennsl/bs-json"],
+  "bs-dev-dependencies": ["@glennsl/bs-jest"],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    },
+    {
+      "dir": "__tests__",
+      "type": "dev",
+      "subdirs": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "ppx-flags": [],
+  "refmt": 3,
+  "gentypeconfig": {
+    "language": "typescript",
+    "module": "es6",
+    "importPath": "relative",
+    "shims": {
+      "ReasonPervasives": "ReasonPervasives"
+    },
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  }
+}
