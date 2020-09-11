@@ -1,35 +1,34 @@
 open Types;
 
 module CreateOrderHandler = {
-  let process = (command: command) => {
-    command->ignore;
-
-    Js.log2("Order taken into account", command);
-
-    command.payload->Repositories.Order.save;
+  let process = (order: order, next: callback) => {
+    next |> order->Repositories.Order.insert;
   };
 };
 
 module AddProductHandler = {
-  let process = (command: command) => {
-    command->ignore;
-
-    command.payload->Repositories.Order.save;
+  let process = (product: product, next: callback) => {
+    next |> product->Repositories.Product.insert;
   };
 };
 
 module RemoveProductHandler = {
-  let process = (command: command) => {
-    command->ignore;
-
-    command.payload->Repositories.Order.save;
+  let process = (productId: string, next: callback) => {
+    productId->ignore;
+    next |> ignore;
   };
 };
 
 module UpdateProductQuantityHandler = {
-  let process = (command: command) => {
-    command->ignore;
+  let process = (productId: string, ~quantity: int, next: callback) => {
+    productId->ignore;
+    quantity->ignore;
+    next |> ignore;
+  };
+};
 
-    command.payload->Repositories.Order.save;
+module ProductsGetterHandler = {
+  let process = (next: callback) => {
+    next |> Repositories.Product.selectAll;
   };
 };

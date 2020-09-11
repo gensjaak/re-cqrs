@@ -18,14 +18,12 @@ type order = {
 };
 
 [@genType]
-type commandType =
+type command =
   | CreateOrder(order)
   | AddProduct(product)
   | RemoveProduct(string)
-  | UpdateProductQuantity(string, int);
+  | UpdateProductQuantity(string, int)
+  | GetProducts;
 
 [@genType]
-type command = {
-  type_: commandType,
-  payload: order,
-};
+type callback = Js.Json.t => unit;

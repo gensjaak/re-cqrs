@@ -4,16 +4,18 @@ let conn =
     ~port=8889,
     ~user="cqrsuser",
     ~password="CHxnzVvAv87MkGrd",
+    ~database="order_hut",
     (),
   );
 
-let connect = () => {
-  Mysql.query(conn, "SHOW DATABASES", result => {
-    switch (result) {
-    | Ok(results) => Js.log(results.results)
-    | Error(err) => Js.log(err##message)
+let connect = () =>
+  Mysql.query(conn, "SELECT NOW();", queryResult => {
+    switch (queryResult) {
+    | Ok(response) =>
+      Js.log2("Connected to database successfully at:", response.results)
+    | Error(err) =>
+      Js.log2("Error while connecting to remote database", err##message)
     }
   });
 
-  Mysql.endConnection(conn);
-};
+let disconnect = () => Mysql.endConnection(conn);

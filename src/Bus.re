@@ -1,12 +1,16 @@
 open Types;
 open CommandHandlers;
 
-let handle = (command: command) => {
-  switch (command.type_) {
-  | CreateOrder(_) => command->CreateOrderHandler.process
-  | AddProduct(_) => command->AddProductHandler.process
-  | RemoveProduct(_) => command->RemoveProductHandler.process
-  | UpdateProductQuantity(_, _) =>
-    command->UpdateProductQuantityHandler.process
-  };
+let handle = (command, next: callback) => {
+  next
+  |> (
+    switch (command) {
+    | CreateOrder(order) => order->CreateOrderHandler.process
+    | AddProduct(product) => product->AddProductHandler.process
+    | RemoveProduct(productId) => productId->RemoveProductHandler.process
+    | UpdateProductQuantity(productId, quantity) =>
+      productId->UpdateProductQuantityHandler.process(~quantity)
+    | GetProducts => ProductsGetterHandler.process
+    }
+  );
 };

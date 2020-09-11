@@ -1,9 +1,13 @@
 open Types;
 
-let createOrder = (order, next: unit => unit) => {
-  let command = {type_: CreateOrder(order), payload: order};
+let getProducts = (next: callback) => {
+  let command = GetProducts;
 
-  command->Bus.handle;
+  command->Bus.handle(next);
+};
 
-  next();
+let createOrder = (order, next: callback) => {
+  let command = CreateOrder(order);
+
+  command->Bus.handle(next);
 };

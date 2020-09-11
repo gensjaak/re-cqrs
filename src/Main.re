@@ -1,58 +1,38 @@
-open Types;
-
-type express;
-type response;
-type request = Js.Types.obj_val;
-type handler = (request, response) => unit;
-
-let getQuery = [%raw "(request) => request.query"];
-
-[@bs.send] external post: (express, string, handler) => unit = "post";
-[@bs.send] external get: (express, string, handler) => unit = "get";
-[@bs.send] external send: (response, string) => unit = "send";
-[@bs.send] external listen: (express, int, unit => unit) => unit = "listen";
-[@bs.module] external express: unit => express = "express";
+open ExpressUtils;
 
 let app = express();
 
-module Routing = {
-  let createOrderHandler: handler =
-    (req, res) => {
-      let order = {
-        id: 0,
-        reference: "",
-        clientName: req->getQuery##userName,
-        date: "",
-        products: [||],
-        totalPrice: 0.,
-      };
-
-      order->Controller.createOrder(() => {
-        send(res, "Creating order for you...")
-      });
-    };
-  let addProductHandler: handler =
-    (req, res) => {
-      req->ignore;
-      send(res, "You want to add product to an order");
-    };
-  let removeProductHandler: handler =
-    (req, res) => {
-      req->ignore;
-      send(res, "You want to remove a product from an order");
-    };
-  let updateProductQuantityHandler: handler =
-    (req, res) => {
-      req->ignore;
-      send(res, "You want to update a product contained in an order");
-    };
-};
-
+// Connect to database at application start
 Database.connect();
 
-post(app, "/create", Routing.createOrderHandler);
-post(app, "/:id/addproduct", Routing.addProductHandler);
-post(app, "/:id/removeproduct", Routing.removeProductHandler);
-post(app, "/:id/updateproductquantity", Routing.updateProductQuantityHandler);
+// Product routes
+get(app, "/products", Router.getProductsHandler);
+post(app, "/products", Router.testApiStatus);
 
-listen(app, 9000, () => {Js.log("Hello world, my server started!")});
+get(app, "/products/:id", Router.testApiStatus);
+put(app, "/products/:id", Router.testApiStatus);
+delete(app, "/products/:id", Router.testApiStatus);
+patch(app, "/products/:id", Router.testApiStatus);
+
+// Order routes
+get(app, "/orders", Router.testApiStatus);
+post(app, "/orders", Router.createOrderHandler);
+
+get(app, "/orders/:id", Router.testApiStatus);
+put(app, "/orders/:id", Router.testApiStatus);
+delete(app, "/orders/:id", Router.testApiStatus);
+patch(app, "/orders/:id", Router.testApiStatus);
+
+post(app, "/orders/:id/addproduct", Router.addProductHandler);
+post(app, "/orders/:id/removeproduct", Router.removeProductHandler);
+post(
+  app,
+  "/orders/:id/updateproductquantity",
+  Router.updateProductQuantityHandler,
+);
+
+// Start server
+listen(app, 9000, () => {
+  // Started successfully 🎉
+  Js.log("Hello world, my server started!")
+});

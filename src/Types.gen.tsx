@@ -2,6 +2,8 @@
 /* eslint-disable import/first */
 
 
+import {Json_t as Js_Json_t} from './Js.gen';
+
 // tslint:disable-next-line:interface-over-type-literal
 export type product = {
   readonly id: number; 
@@ -22,11 +24,12 @@ export type order = {
 };
 
 // tslint:disable-next-line:interface-over-type-literal
-export type commandType = 
-    { tag: "CreateOrder"; value: order }
+export type command = 
+    "GetProducts"
+  | { tag: "CreateOrder"; value: order }
   | { tag: "AddProduct"; value: product }
   | { tag: "RemoveProduct"; value: string }
   | { tag: "UpdateProductQuantity"; value: [string, number] };
 
 // tslint:disable-next-line:interface-over-type-literal
-export type command = { readonly type_: commandType; readonly payload: order };
+export type callback = (_1:Js_Json_t) => void;

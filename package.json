@@ -8,7 +8,7 @@
     "prepublishOnly": "yarn test && yarn build",
     "build": "bsb -make-world -clean-world",
     "build:watch": "bsb -make-world -clean-world -w",
-    "start:dev": "nodemon --watch src src/Main.bs.js",
+    "dev": "nodemon --watch src src/Main.bs.js",
     "start": "node src/Main.bs.js",
     "test": "yarn build && jest --runInBand --config jest.config.re.js --coverage && jest --runInBand --config jest.config.ts.js",
     "preversion": "yarn test",
